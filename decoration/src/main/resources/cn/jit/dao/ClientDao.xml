@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jit.dao.ClientDao">
+    <insert id="addClient" parameterType="cn.jit.po.Client">
+        insert into client(user_id,address,status)
+        values(#{userId},#{address},#{status})
+    </insert>
+
+    <update id="updateClient" parameterType="cn.jit.po.Client">
+        update client
+        <trim prefix="set" suffixOverrides=",">
+            <if test="address!=null">
+                address=#{address},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+            <if test="isDelete!=null">
+                is_delete=#{isDelete}
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+    <select id="queryClientByUserId" parameterType="java.lang.Integer" resultType="cn.jit.po.Client">
+        select * from client
+        where user_id=#{userId} and is_delete='0'
+    </select>
+    <select id="queryClients" parameterType="java.util.Map" resultType="cn.jit.dto.ManageClientDto">
+        select client.*,user.name,user.phone from client
+        left join user
+        on user.id=client.user_id
+        <where>
+        <if test="isDelete!=null">
+            client.is_delete=#{isDelete}
+        </if>
+            <if test="name!=null">
+                and user.name like CONCAT('%',#{name},'%')
+            </if>
+
+            <if test="status!=null">
+                and client.status like CONCAT('%',#{status},'%')
+            </if>
+        </where>
+    </select>
+    <select id="queryClientById" parameterType="java.lang.Integer" resultType="cn.jit.po.Client">
+        select * from client where id=#{id}
+    </select>
+
+</mapper>
