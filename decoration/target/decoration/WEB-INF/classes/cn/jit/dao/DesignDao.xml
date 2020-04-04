@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jit.dao.DesignDao">
+    <insert id="addDesign" parameterType="cn.jit.po.Design">
+        insert into design(decorator_id,client_id,style,house,square,construction_cost,main_material,furniture,soft_outfit)
+        values(#{decoratorId},#{clientId},#{style},#{house},#{square},#{constructionCost},#{mainMaterial},#{furniture},#{softOutfit})
+    </insert>
+
+    <update id="updateDesign" parameterType="cn.jit.po.Design">
+        update design
+        set drawing=#{drawing}
+        where client_id=#{clientId}
+    </update>
+
+    <select id="queryDesignByClientId" parameterType="java.lang.Integer" resultType="cn.jit.po.Design">
+        select * from design
+        where client_id=#{clientId}
+    </select>
+
+</mapper>

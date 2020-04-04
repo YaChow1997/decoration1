@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jit.dao.ProcessDao">
+
+    <update id="updateProcess" parameterType="cn.jit.po.Process">
+        update process
+        set pic=#{pic}
+        where decorator_id=#{decoratorId} and is_accept='1'
+    </update>
+
+    <update id="updateByClientId" parameterType="cn.jit.po.Process">
+        update process
+        <trim prefix="set" suffixOverrides=",">
+            <if test="isAccept!=null">
+                is_accept=#{isAccept},
+            </if>
+            <if test="isDelete!=null">
+                is_delete=#{isDelete},
+            </if>
+        </trim>
+        where client_id=#{clientId}
+    </update>
+
+    <insert id="addProcess" parameterType="cn.jit.po.Process">
+        insert into process(decorator_id,client_id) values(#{decoratorId},#{clientId});
+    </insert>
+
+    <select id="queryByDecoratorId" parameterType="java.lang.Integer" resultType="cn.jit.po.Process">
+        select * from process  where decorator_id=#{decoratorId}
+    </select>
+    <select id="queryByDecoratorId1" parameterType="java.lang.Integer" resultType="cn.jit.po.Process">
+        select * from process  where decorator_id=#{decoratorId} and is_accept='1'
+    </select>
+    <select id="queryProcessesByDecoratorId" parameterType="java.lang.Integer" resultType="cn.jit.dto.ProcessDto">
+        select process.*,user.name,user.phone from process
+        left join user
+        on user.id=process.client_id
+        where decorator_id=#{decoratorId} and is_delete='1'
+    </select>
+    <select id="queryByClientId" parameterType="java.lang.Integer" resultType="cn.jit.po.Process">
+        select * from process  where client_id=#{clientId}
+    </select>
+
+</mapper>

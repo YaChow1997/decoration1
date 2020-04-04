@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jit.dao.DecoratorDao">
+    <insert id="addDecorator" parameterType="cn.jit.po.Decorator">
+        insert into decorator(cid,user_id,name,phone,status)
+        values(#{cid},#{userId},#{name},#{phone},#{status})
+    </insert>
+
+    <update id="updateDecorator" parameterType="cn.jit.po.Decorator">
+        update decorator
+        <trim prefix="set" suffixOverrides=",">
+            <if test="cid!=null">
+                cid=#{cid},
+            </if>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="phone!=null">
+                phone=#{phone},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+            <if test="isDelete!=null">
+                is_delete=#{isDelete}
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+    <update id="updateDecoratorByUserId" parameterType="cn.jit.po.Decorator">
+        update decorator
+        set   status=#{status}
+        where user_id=#{userId}
+    </update>
+    <select id="queryDecoratorByUserId" parameterType="java.lang.Integer" resultType="cn.jit.po.Decorator">
+        select * from decorator
+        where user_id=#{userId} and is_delete='0'
+    </select>
+    <select id="queryDecorators" parameterType="java.util.Map" resultType="cn.jit.po.Decorator">
+        select decorator.* from decorator
+        <where>
+            <if test="isDelete!=null">
+                decorator.is_delete=#{isDelete}
+            </if>
+            <if test="name!=null">
+                and decorator.name like CONCAT('%',#{name},'%')
+            </if>
+
+            <if test="status!=null">
+                and decorator.status like CONCAT('%',#{status},'%')
+            </if>
+        </where>
+    </select>
+    <select id="queryAllDecorators" parameterType="cn.jit.po.Decorator" resultType="cn.jit.po.Decorator">
+        select * from decorator
+        <where>
+            <if test="cid!=null">
+                and decorator.cid=#{cid}
+            </if>
+            <if test="userId!=null">
+                and decorator.user_id=#{userId}
+            </if>
+            <if test="name!=null">
+                and decorator.name=#{name}
+            </if>
+            <if test="icon!=null">
+                and decorator.icon=#{icon}
+            </if>
+            <if test="url!=null">
+                and decorator.url=#{url}
+            </if>
+            <if test="phone!=null">
+                and decorator.phone=#{phone}
+            </if>
+            <if test="status!=null">
+                and decorator.status=#{status}
+            </if>
+        </where>
+        order by decorator.id asc
+    </select>
+    <select id="queryDecoratorById" parameterType="int" resultType="cn.jit.po.Decorator">
+        select * from decorator where id=#{id}
+    </select>
+
+</mapper>

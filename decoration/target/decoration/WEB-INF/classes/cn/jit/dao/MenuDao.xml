@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jit.dao.MenuDao">
+    <select id="queryMenuByRoleId"  resultType="cn.jit.dto.MenuDto">
+        select menu.* from role_menu
+        LEFT JOIN menu
+        on menu.id=role_menu.menu_id
+        <where>
+            <if test="roleId!=null">
+                role_id=#{roleId}
+            </if>
+        </where>
+        order by order_index asc
+    </select>
+    <select id="queryMenuByMenu1Id" parameterType="java.util.List" resultType="cn.jit.po.Menu">
+        select * from menu
+        <where>
+            parent_id in
+            <foreach collection="list" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </where>
+        order by parent_id asc,order_index asc
+    </select>
+</mapper>
