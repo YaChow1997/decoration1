@@ -3,9 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.jit.dao.UserDao">
+
+    <select id="queryPhone" parameterType="java.lang.String" resultType="cn.jit.po.User">
+        select * from user where phone=#{phone}
+    </select>
+
     <insert id="addUser" parameterType="cn.jit.po.User">
         insert into user(name,password,role_id,picture,phone) values(#{name},#{password},#{roleId},#{picture},#{phone});
     </insert>
+
     <select id="queryAll" parameterType="cn.jit.po.User" resultType="cn.jit.dto.UserDto">
         select * from user
         left join role

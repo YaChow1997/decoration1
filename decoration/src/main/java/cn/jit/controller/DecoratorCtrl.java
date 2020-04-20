@@ -74,11 +74,20 @@ public class DecoratorCtrl  extends BaseCtrl{
         params.put("pageNumber",pageNumber);
         params.put("pageSize",pageSize);
         params.put("decoratorId",userDto.getId());
-
         return this.send(processService.queryProcessesByDecoratorId(params));
-
-
     }
+    @RequestMapping("/queryProcessesByDecoratorId1")
+    public Result queryProcessesByDecoratorId1(@RequestParam("pageNumber")Integer pageNumber,
+                                              @RequestParam("pageSize")Integer pageSize,
+                                              HttpSession session){
+        UserDto userDto= (UserDto) session.getAttribute("USER_SESSION");
+        Map<String,Object> params=new HashMap<>();
+        params.put("pageNumber",pageNumber);
+        params.put("pageSize",pageSize);
+        params.put("decoratorId",userDto.getId());
+        return this.send(processService.queryProcessesByDecoratorId1(params));
+    }
+
 
     @PostMapping("/addDesign")
     public Result addDesign(Design design){

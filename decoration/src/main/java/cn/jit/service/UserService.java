@@ -18,6 +18,11 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
+    public User queryPhone(String phone){
+        return userDao.queryPhone(phone);
+    }
+
+
     public UserDto loginFind (String password, String name){
         UserDto user=userDao.queryByName(name);
         if (user != null && user.getPassword().equals(password)) {

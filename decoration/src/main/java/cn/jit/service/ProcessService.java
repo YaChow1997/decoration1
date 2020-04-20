@@ -59,4 +59,18 @@ public class ProcessService {
         return map;
     }
 
+    @Transactional
+    public Map<String, Object> queryProcessesByDecoratorId1(Map<String,Object> params){
+        Integer pageNumber=(Integer) params.get("pageNumber");
+        Integer pageSize=(Integer) params.get("pageSize");
+        Integer decoratorId=(Integer)params.get("decoratorId");
+        PageHelper.startPage(pageNumber,pageSize);
+        List<ProcessDto> ProcessList=processDao.queryProcessesByDecoratorId1(decoratorId);
+        PageInfo pageInfo=new PageInfo(ProcessList);
+        Map<String,Object> map=new HashMap<>();
+        map.put("total",pageInfo.getTotal());
+        map.put("size",pageInfo.getSize());
+        map.put("data",ProcessList);
+        return map;
+    }
 }

@@ -114,7 +114,7 @@ public class RenderCtrl {
     public ModelAndView todecProcess(HttpSession session){
         UserDto userDto= (UserDto) session.getAttribute("USER_SESSION");
         ModelAndView modelAndView=new ModelAndView();
-        modelAndView.setViewName("decorator/decProcess");
+
         List<MenuDto> menuDtoList=menuService.queryMenuByRoleId(userDto.getRoleId());
         modelAndView.addObject("menuDtoList",menuDtoList);
         modelAndView.addObject("menuId",8);
@@ -122,18 +122,23 @@ public class RenderCtrl {
         Process process=processService.queryByDecoratorId1(userDto.getId());
 
         String[] str=new String[4];
-        if(process.getPic()!=null){
-            str=process.getPic().split("#");
-        }
-        List<String> urlList=new ArrayList<>();
-        for(int i=1;i<=4;i++){
-            if(i<=str.length){
-                urlList.add(str[i-1]);
-            }else{
-                urlList.add("http://placehold.it/150x100");
+        if(process!=null){
+            if(process.getPic()!=null){
+                str=process.getPic().split("#");
             }
+            List<String> urlList=new ArrayList<>();
+            for(int i=1;i<=4;i++){
+                if(i<=str.length){
+                    urlList.add(str[i-1]);
+                }else{
+                    urlList.add("http://placehold.it/150x100");
+                }
+            }
+            modelAndView.addObject("urlList",urlList);
+            modelAndView.setViewName("decorator/decProcess");
+        }else{
+            modelAndView.setViewName("common/exception2");
         }
-        modelAndView.addObject("urlList",urlList);
 
         return modelAndView;
     }
@@ -142,7 +147,6 @@ public class RenderCtrl {
     public ModelAndView tocheckProcess(HttpSession session){
         UserDto userDto= (UserDto) session.getAttribute("USER_SESSION");
         ModelAndView modelAndView=new ModelAndView();
-        modelAndView.setViewName("client/checkProcess");
         List<MenuDto> menuDtoList=menuService.queryMenuByRoleId(userDto.getRoleId());
         modelAndView.addObject("menuDtoList",menuDtoList);
         modelAndView.addObject("menuId",12);
@@ -150,19 +154,24 @@ public class RenderCtrl {
         Process process=processService.queryByClientId(userDto.getId());
 
         String[] str=new String[4];
-        if(process.getPic()!=null){
-            str=process.getPic().split("#");
-        }
-        List<String> urlList2=new ArrayList<>();
-        for(int i=1;i<=4;i++){
-            if(i<=str.length){
-                urlList2.add(str[i-1]);
-            }else{
-                urlList2.add("http://placehold.it/150x100");
-            }
-        }
-        modelAndView.addObject("urlList",urlList2);
 
+        if(process!=null){
+            if(process.getPic()!=null){
+                str=process.getPic().split("#");
+            }
+            List<String> urlList2=new ArrayList<>();
+            for(int i=1;i<=4;i++){
+                if(i<=str.length){
+                    urlList2.add(str[i-1]);
+                }else{
+                    urlList2.add("http://placehold.it/150x100");
+                }
+            }
+            modelAndView.addObject("urlList",urlList2);
+            modelAndView.setViewName("client/checkProcess");
+        }else{
+            modelAndView.setViewName("common/exception");
+        }
         return modelAndView;
     }
 
@@ -228,12 +237,17 @@ public class RenderCtrl {
     public ModelAndView todesign(HttpSession session){
         UserDto userDto= (UserDto) session.getAttribute("USER_SESSION");
         ModelAndView modelAndView=new ModelAndView();
-        modelAndView.setViewName("decorator/design");
+
         List<MenuDto> menuDtoList=menuService.queryMenuByRoleId(userDto.getRoleId());
         modelAndView.addObject("menuDtoList",menuDtoList);
         modelAndView.addObject("menuId",7);
         Process process=processService.queryByDecoratorId1(userDto.getId());
-        modelAndView.addObject("clientId",process.getClientId());
+        if(process!=null){
+            modelAndView.addObject("clientId",process.getClientId());
+            modelAndView.setViewName("decorator/design");
+        }else{
+            modelAndView.setViewName("common/exception2");
+        }
         return modelAndView;
     }
 
@@ -241,14 +255,18 @@ public class RenderCtrl {
     public ModelAndView tomybill(HttpSession session){
         UserDto userDto= (UserDto) session.getAttribute("USER_SESSION");
         ModelAndView modelAndView=new ModelAndView();
-        modelAndView.setViewName("client/mybill");
         List<MenuDto> menuDtoList=menuService.queryMenuByRoleId(userDto.getRoleId());
         modelAndView.addObject("menuDtoList",menuDtoList);
         modelAndView.addObject("menuId",13);
         Design design=designService.queryDesignByClientId(userDto.getId());
-        modelAndView.addObject("design",design);
-        double total=design.getConstructionCost()+design.getFurniture()+design.getMainMaterial()+design.getSoftOutfit();
-        modelAndView.addObject("total",total);
+        if(design!=null){
+            modelAndView.addObject("design",design);
+            double total=design.getConstructionCost()+design.getFurniture()+design.getMainMaterial()+design.getSoftOutfit();
+            modelAndView.addObject("total",total);
+            modelAndView.setViewName("client/mybill");
+        }else{
+            modelAndView.setViewName("common/exception");
+        }
         return modelAndView;
     }
 }

@@ -74,8 +74,6 @@
 
         <!-- Main content -->
         <section class="content">
-
-            <div class="box box-default">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
@@ -146,6 +144,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+        <%--结束订单--%>
         <div class="modal fade modal-success" id="finishClientDialog">
             <div class="modal-dialog">
                 <div class="modal-content">

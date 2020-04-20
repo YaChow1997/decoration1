@@ -53,7 +53,6 @@
                     <div class="checkbox icheck">
                         <label>
                             <a href="register.jsp" class="text-center">注册新用户</a>
-
                         </label>
                     </div>
                 </div>

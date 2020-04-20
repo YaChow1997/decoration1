@@ -40,11 +40,19 @@ public class UserCtrl extends BaseCtrl{
         response.sendRedirect("/decoration/pages/common/login.jsp");
     }
 
+    @GetMapping("/phoneIfExist")
+    public Result queryPhone(String phone){
+        User user=userService.queryPhone(phone);
+        if(user!=null){
+            return this.send(false);
+        }
+        return this.send(true);
+    }
+
     @PostMapping("/register")
     public Result addUser(User user){
-        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
-        user.setRoleId(1);
-        user.setPicture("http://localhost:8080/internet/dist/img/no.jpg");
+        user.setPassword(user.getPassword());
+        user.setPicture("http://localhost:8080/decoration/dist/img/user1-128x128.jpg");
         int result=0;
         try {
             result = userService.addUser(user);
@@ -67,4 +75,15 @@ public class UserCtrl extends BaseCtrl{
         return this.send(userService.queryUserByName(name));
     }
 
+    @PostMapping("/updateInfo")
+    public Result updateInfo(User user,HttpServletRequest request,HttpServletResponse response)  throws IOException {
+        HttpSession session = request.getSession();
+        UserDto userdto = (UserDto) session.getAttribute("USER_SESSION");
+        int id=userdto.getId();
+        user.setId(id);
+        userService.updateUser(user);
+        userdto.setPhone(user.getPhone());
+        session.setAttribute("USER_SESSION", userdto);
+        return this.send(userService.updateUser(user));
+    }
 }

@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface UserDao {
 
+    public User queryPhone(String phone);
+
     public int addUser(User user);
 
     public List<UserDto> queryAll(User user);

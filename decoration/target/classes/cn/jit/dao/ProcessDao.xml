@@ -39,6 +39,12 @@
         on user.id=process.client_id
         where decorator_id=#{decoratorId} and is_delete='1'
     </select>
+    <select id="queryProcessesByDecoratorId1" parameterType="java.lang.Integer" resultType="cn.jit.dto.ProcessDto">
+        select process.*,user.name,user.phone from process
+        left join user
+        on user.id=process.client_id
+        where decorator_id=#{decoratorId}
+    </select>
     <select id="queryByClientId" parameterType="java.lang.Integer" resultType="cn.jit.po.Process">
         select * from process  where client_id=#{clientId}
     </select>
