@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <div class="box-body" style="display: block;">
-                            <img src="${design.drawing}" >
+                            <img src="${design.drawing}" height="350" width="350" />
                         </div>
                         <table class="table table-bordered">
                             <tr>

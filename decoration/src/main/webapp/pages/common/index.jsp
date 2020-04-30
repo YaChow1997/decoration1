@@ -53,7 +53,6 @@
     <jsp:include page="../aside.jsp"/>
 
     <!-- =============================================== -->
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- /.content -->
@@ -102,6 +101,23 @@
             <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
             reserved.
         </footer>
+
+        <div class="modal-content" id="myModal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">提醒</h4>
+            </div>
+            <div class="modal-body">
+                <p>您的预约请求已接受</p>
+                <form id="deleteForm">
+                    <input type="hidden" name="id"/>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
     <!-- ./wrapper -->
     <!-- jQuery 3 -->
     <script src="<c:url value="/bower_components/jquery/dist/jquery.min.js"/>"></script>

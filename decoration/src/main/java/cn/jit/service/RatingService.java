@@ -16,6 +16,7 @@ public class RatingService {
     public int addRatingByUser(Rating rating){
         return ratingDao.addRatingByUser(rating);
     }
+    public int updateRatingByUser(Rating rating){return ratingDao.updateRatingByUser(rating);}
 
     @Transactional
     public List<Rating> queryRatingByClientId(Integer clientId){return ratingDao.queryRatingByClientId(clientId);}

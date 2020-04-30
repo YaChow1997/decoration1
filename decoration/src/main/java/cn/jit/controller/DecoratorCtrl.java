@@ -92,9 +92,9 @@ public class DecoratorCtrl  extends BaseCtrl{
     @PostMapping("/addDesign")
     public Result addDesign(Design design){
         if(designService.queryDesignByClientId(design.getClientId())!=null){
-            this.send(-1,"该用户装修方案已存在");
+            return this.send(-1,"该用户装修方案已存在");
         }
         designService.addDesign(design);
-        return this.send(null);
+        return this.send(1,"提交方案成功！");
     }
 }

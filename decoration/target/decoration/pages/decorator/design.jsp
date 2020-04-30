@@ -180,7 +180,7 @@
                     dataType: "json",
                     success: function (data) {
                         if(data.status.code==1){
-                            alert("添加成功");
+                            alert("提交方案成功！");
                             window.location.reload();
                         }else{
                             alert(data.status.message);

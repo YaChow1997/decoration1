@@ -30,7 +30,7 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="${sessionScope.USER_SESSION.picture}" class="user-image user_pic" alt="User Image">
+                        <img src="/images/pic/${sessionScope.USER_SESSION.picture}" class="user-image user_pic" alt="User Image">
                         <span class="hidden-xs">${sessionScope.USER_SESSION.name}</span>
                     </a>
                     <ul class="dropdown-menu">
@@ -52,14 +52,15 @@
 <div  style="z-index: 20;position: fixed;bottom:0px;right:10px;display: none;width:300px;" id="tip">
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" id="closeAlert">×</button>
-        <h4><i class="icon fa fa-check"></i> 首页新闻更改!</h4>
-        <a href="<c:url value="/render/toIndex"/>">前往查看</a>.
+        <label>推送</label>
+        标题：<input type="text" class="form-control" name="title1">
+        内容：<input type="text" class="form-control" name="content1">
     </div>
 </div>
 <script src="<c:url value="/bower_components/jquery/dist/jquery.min.js"/>"></script>
 <script type="application/javascript">
     $(function(){
-        var webSocket = new WebSocket("ws://<%=request.getServerName()%>:8080/internet/webSocketServer");
+        var webSocket = new WebSocket("ws://localhost:8080/decoration/webSocketServer");
         webSocket.onopen = function(event){
             console.log("连接成功");
             console.log(event);
@@ -74,11 +75,24 @@
         };
         var timer;
         webSocket.onmessage = function(event){
+            var parse = JSON.parse(event.data);
+            if(parse.type=='pushdata'){
+                $("[name=title1]").val(parse.data.title);
+                $("[name=content1]").val(parse.data.content);
+            }
+            if(parse.type='reservedata'){
+                $("[name=title1]").val("您有一个预约请求！");
+                $("[name=content1]").val(parse.data+"发起预约请求，请到预约列表接受该用户请求");
+            }
+            if(parse.type='acceptdata'){
+                $("[name=title1]").val("预约成功消息：");
+                $("[name=content1]").val(parse.data+"接受了您的预约！");
+            }
             $("#tip").show('slow');
             clearInterval(timer);
             timer=setInterval(function(){
                 $("#tip").hide('slow');
-            },5000);
+            },10000);
         }
         $("#closeAlert").click(function(){
             $("#tip").hide('slow');

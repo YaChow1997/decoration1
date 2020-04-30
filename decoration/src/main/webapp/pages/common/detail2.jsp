@@ -152,7 +152,7 @@
                     success: function(data){
                         if(data.status.code==1){
                             alert("已发送预约请求！");
-                            window.location.reload();
+                            $("#reserveDecoratorDialog").modal('hide');
                         }else{
                             alert(data.status.message);
                         }

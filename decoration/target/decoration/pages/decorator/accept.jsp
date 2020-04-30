@@ -292,12 +292,9 @@
                     data: json,
                     success: function (data) {
                         if(data.status.code==1){
-                            alert("接单成功！");
-                            Bootstrap_paging(1)
-                        }else{
                             alert(data.status.message);
                         }
-                        $("#acceptClientDialog").modal('hide');
+                        $("#finishClientDialog").modal('hide');
                     }
                 })
             })

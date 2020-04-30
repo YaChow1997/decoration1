@@ -4,9 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.jit.dao.RatingDao">
 
-    <update id="addRatingByUser" parameterType="cn.jit.po.Rating">
+    <insert id="addRatingByUser" parameterType="cn.jit.po.Rating">
         insert into rating(client_id,example_id,score)
         values(#{clientId},#{exampleId},#{score})
+    </insert>
+
+    <update id="updateRatingByUser" parameterType="cn.jit.po.Rating">
+        update rating
+        set score=#{score}
+        where example_id=#{exampleId} and client_id=#{clientId}
     </update>
 
     <select id="queryRatingByClientId" parameterType="java.lang.Integer" resultType="cn.jit.po.Rating">

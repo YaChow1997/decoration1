@@ -1,6 +1,8 @@
 package cn.jit.controller;
 
 import cn.jit.common.Result;
+import cn.jit.common.ScocketMsg;
+import cn.jit.common.WebSocketPushHandler;
 import cn.jit.dto.UserDto;
 import cn.jit.po.*;
 import cn.jit.po.Process;
@@ -31,6 +33,8 @@ public class CommonCtrl extends BaseCtrl {
     private RatingService ratingService;
     @Autowired
     private DesignService designService;
+    @Autowired
+    private WebSocketPushHandler webSocketPushHandler;
 
     @RequestMapping(value = "/upload")
     public ModelAndView upload(@RequestParam MultipartFile[] imgs, HttpSession session) throws Exception{
@@ -102,11 +106,14 @@ public class CommonCtrl extends BaseCtrl {
     @RequestMapping("/rate")
     public Result rate(@RequestParam(value = "score")Integer score, @RequestParam(value = "exampleId")Integer exampleId, HttpServletRequest request, HttpServletResponse response)  throws IOException {
         HttpSession session = request.getSession();
-        Rating rating=new Rating();
         UserDto user = (UserDto) session.getAttribute("USER_SESSION");
+        Rating rating=new Rating();
         rating.setClientId(user.getId());
         rating.setExampleId(exampleId);
         rating.setScore(score);
+        if(!ratingService.queryRatingByClientId(user.getId()).isEmpty()){
+            return this.send(ratingService.updateRatingByUser(rating));
+        }
         ratingService.addRatingByUser(rating);
         return this.send(ratingService.addRatingByUser(rating));
     }
@@ -127,14 +134,28 @@ public class CommonCtrl extends BaseCtrl {
         process.setClientId(clientId);
         process.setIsAccept(isAccept);
         processService.updateByClientId(process);
-        return this.send(null);
+
+        //发送socket消息
+        ScocketMsg msg = new ScocketMsg();
+        msg.setType("acceptdata");
+        msg.setData(userDto.getName());
+        webSocketPushHandler.sendMessageToUser(process.getClientId(),msg);
+        return this.send(1,"预约成功");
     }
 
     @RequestMapping("/finishBtn")
     public Result finishBtn(@RequestParam("clientId")Integer clientId, @RequestParam("isDelete")String isDelete){
+        Process process0=processService.queryByClientId(clientId);
+        if(process0.getIsAccept().equals("0")){
+            return this.send(-1,"该客户您还未接单！");
+        }
         Process process=new Process();
         process.setClientId(clientId);
         process.setIsDelete(isDelete);
+
+        Decorator decorator=new Decorator();
+        decorator.setStatus("0");
+        decoratorService.updateDecorator(decorator);
         return this.send(processService.updateByClientId(process));
     }
 }

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Yangchow
-  Date: 2020-03-11
-  Time: 19:22
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -14,7 +7,7 @@
 
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="${sessionScope.USER_SESSION.picture}" class="img-circle user_pic" alt="User Image">
+                <img src="/images/pic/${sessionScope.USER_SESSION.picture}" class="img-circle user_pic" alt="User Image">
             </div>
             <div class="pull-left info">
                 <p>${sessionScope.USER_SESSION.name}</p>

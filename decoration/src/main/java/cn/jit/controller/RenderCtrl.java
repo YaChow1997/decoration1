@@ -55,6 +55,20 @@ public class RenderCtrl {
         return modelAndView;
     }
 
+    @GetMapping("/toPush")
+    public ModelAndView toPush(HttpSession session){
+        UserDto userDto= (UserDto) session.getAttribute("USER_SESSION");
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.setViewName("admin/push");
+        List<MenuDto> menuDtoList=menuService.queryMenuByRoleId(userDto.getRoleId());
+        modelAndView.addObject("menuDtoList",menuDtoList);
+        List<Example> examplesList=exampleService.queryAllExamples();
+        modelAndView.addObject("examplesList",examplesList);
+
+        modelAndView.addObject("menuId",4);
+        return modelAndView;
+    }
+
     @GetMapping("toreserve")
     public ModelAndView toreserve(HttpSession session){
         UserDto userDto=(UserDto)session.getAttribute("USER_SESSION");

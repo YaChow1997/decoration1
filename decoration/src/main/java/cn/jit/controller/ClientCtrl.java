@@ -1,6 +1,8 @@
 package cn.jit.controller;
 
 import cn.jit.common.Result;
+import cn.jit.common.ScocketMsg;
+import cn.jit.common.WebSocketPushHandler;
 import cn.jit.dto.ManageClientDto;
 import cn.jit.dto.UserDto;
 import cn.jit.po.Client;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -29,6 +32,8 @@ public class ClientCtrl  extends BaseCtrl{
     private UserService userService;
     @Autowired
     private ProcessService processService;
+    @Autowired
+    private WebSocketPushHandler webSocketPushHandler;
     /**
      * 添加客户
      * @param manageClientDto
@@ -73,10 +78,15 @@ public class ClientCtrl  extends BaseCtrl{
     }
 
     @PostMapping("/reserve")
-    public Result reserve(Process process,HttpServletRequest request){
+    public Result reserve(Process process){
         if(processService.queryByClientId(process.getClientId())!=null){
             return this.send(-1,"已经预约，请等待");
         }
+        User user=userService.queryByUserId(process.getClientId());
+        ScocketMsg msg = new ScocketMsg();
+        msg.setType("reservedata");
+        msg.setData(user.getName());
+        webSocketPushHandler.sendMessageToUser(process.getDecoratorId(),msg);
         processService.addProcess(process);
         return this.send(null);
     }
