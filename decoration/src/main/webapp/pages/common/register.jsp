@@ -50,6 +50,7 @@
                 <label>账户类型</label>
                 <select class="form-control" name="roleId">
                     <option selected="selected" value="">账户类型</option>
+                    <option value="1">管理员</option>
                     <option value="2">装修人员</option>
                     <option value="3">客户</option>
                 </select>

@@ -1,7 +1,7 @@
 package cn.jit.controller;
 
 import cn.jit.common.Result;
-import cn.jit.common.ScocketMsg;
+import cn.jit.common.SocketMsg;
 import cn.jit.common.WebSocketPushHandler;
 import cn.jit.dto.UserDto;
 import cn.jit.po.*;
@@ -136,10 +136,11 @@ public class CommonCtrl extends BaseCtrl {
         processService.updateByClientId(process);
 
         //发送socket消息
-        ScocketMsg msg = new ScocketMsg();
+        SocketMsg msg = new SocketMsg();
         msg.setType("acceptdata");
         msg.setData(userDto.getName());
         webSocketPushHandler.sendMessageToUser(process.getClientId(),msg);
+
         return this.send(1,"预约成功");
     }
 

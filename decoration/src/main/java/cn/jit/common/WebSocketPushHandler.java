@@ -1,10 +1,9 @@
 package cn.jit.common;
 
-import cn.jit.dto.UserDto;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 import com.alibaba.fastjson.JSON;
-import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,7 @@ public class WebSocketPushHandler implements WebSocketHandler {
     /**
      * 给所有的用户发送消息
      */
-    public void sendMessagesToUsers(ScocketMsg message){
+    public void sendMessagesToUsers(SocketMsg message){
         String jsonString = JSON.toJSONString(message);
         for (WebSocketSession session : users) {
             try {
@@ -59,7 +58,7 @@ public class WebSocketPushHandler implements WebSocketHandler {
     /*
     给指定用户发消息
      */
-    public void sendMessageToUser(Integer userId,ScocketMsg message){
+    public void sendMessageToUser(Integer userId, SocketMsg message){
         String jsonString = JSON.toJSONString(message);
         for(WebSocketSession user : users){
             if(user.getAttributes().get("CURRENT_WEBSOCKET_USER").equals(userId)){

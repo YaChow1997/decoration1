@@ -65,7 +65,7 @@
                 <div class="col-lg-3 col-xs-6">
                     <!-- Profile Image -->
                     <div class="small-box bg-aqua">
-                        <img class="profile-user-img img-responsive img-circle user_pic"  src="${sessionScope.USER_SESSION.picture}" alt="User profile picture">
+                        <img class="profile-user-img img-responsive img-circle user_pic"  src="/images/pic/${sessionScope.USER_SESSION.picture}" alt="User profile picture">
                         <h3 class="profile-username text-center">${sessionScope.USER_SESSION.name}</h3>
                     </div>
                         <!-- /.box-body -->

@@ -80,19 +80,23 @@
                 $("[name=title1]").val(parse.data.title);
                 $("[name=content1]").val(parse.data.content);
             }
-            if(parse.type='reservedata'){
+            else if(parse.type=='acceptdata'){
+                $("[name=title1]").val("预约成功消息：");
+                $("[name=content1]").val(parse.data+"接受了您的预约！");
+            }
+            else if(parse.type=='reservedata'){
                 $("[name=title1]").val("您有一个预约请求！");
                 $("[name=content1]").val(parse.data+"发起预约请求，请到预约列表接受该用户请求");
             }
-            if(parse.type='acceptdata'){
-                $("[name=title1]").val("预约成功消息：");
-                $("[name=content1]").val(parse.data+"接受了您的预约！");
+            else{
+                return;
             }
             $("#tip").show('slow');
             clearInterval(timer);
             timer=setInterval(function(){
                 $("#tip").hide('slow');
-            },10000);
+            },15000);
+
         }
         $("#closeAlert").click(function(){
             $("#tip").hide('slow');

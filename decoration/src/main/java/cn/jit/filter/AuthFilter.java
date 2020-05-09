@@ -24,19 +24,6 @@ public class AuthFilter implements Filter {
     public void init(FilterConfig args) throws ServletException {
     }
 
-    private void sentMsg(ServletResponse res, String code, String msg) throws IOException {
-        res.setContentType("application/json");
-        PrintWriter writer = res.getWriter();
-        writer.write("{\n" +
-                "    \"status\": {\n" +
-                "        \"code\": " + code + ",\n" +
-                "        \"message\": \"" + msg + "\"\n" +
-                "    },\n" +
-                "    \"result\": null\n" +
-                "}");
-        writer.close();
-    }
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
@@ -71,13 +58,6 @@ public class AuthFilter implements Filter {
 
     }
 
-    public String[] getOpenUrl() {
-        if (this.openUrl == null || this.openUrl.isEmpty()) {
-            return null;
-        } else {
-            return this.openUrl.split(";");
-        }
-    }
 }
 
 

@@ -294,7 +294,7 @@
                         if(data.status.code==1){
                             alert(data.status.message);
                         }
-                        $("#finishClientDialog").modal('hide');
+                        $("#acceptClientDialog").modal('hide');
                     }
                 })
             })

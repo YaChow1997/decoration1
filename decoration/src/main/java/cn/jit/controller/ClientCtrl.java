@@ -1,10 +1,9 @@
 package cn.jit.controller;
 
 import cn.jit.common.Result;
-import cn.jit.common.ScocketMsg;
+import cn.jit.common.SocketMsg;
 import cn.jit.common.WebSocketPushHandler;
 import cn.jit.dto.ManageClientDto;
-import cn.jit.dto.UserDto;
 import cn.jit.po.Client;
 import cn.jit.po.Process;
 import cn.jit.po.User;
@@ -17,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,7 +80,7 @@ public class ClientCtrl  extends BaseCtrl{
             return this.send(-1,"已经预约，请等待");
         }
         User user=userService.queryByUserId(process.getClientId());
-        ScocketMsg msg = new ScocketMsg();
+        SocketMsg msg = new SocketMsg();
         msg.setType("reservedata");
         msg.setData(user.getName());
         webSocketPushHandler.sendMessageToUser(process.getDecoratorId(),msg);

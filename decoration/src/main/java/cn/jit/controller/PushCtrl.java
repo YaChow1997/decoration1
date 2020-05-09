@@ -1,7 +1,7 @@
 package cn.jit.controller;
 
 import cn.jit.common.Result;
-import cn.jit.common.ScocketMsg;
+import cn.jit.common.SocketMsg;
 import cn.jit.common.WebSocketPushHandler;
 import cn.jit.dto.MassageDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ public class PushCtrl extends BaseCtrl {
     private WebSocketPushHandler webSocketPushHandler;
     @PostMapping("/push")
     public Result test( MassageDto massageDto){
-        ScocketMsg msg = new ScocketMsg();
+        SocketMsg msg = new SocketMsg();
         msg.setType("pushdata");
         msg.setData(massageDto);
         webSocketPushHandler.sendMessagesToUsers(msg);

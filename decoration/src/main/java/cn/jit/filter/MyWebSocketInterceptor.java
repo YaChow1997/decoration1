@@ -13,7 +13,6 @@ import java.util.Map;
 
 /**
  * 此类用来获取登录用户信息并交由websocket管理
- * @author ts
  *
  */
 public class MyWebSocketInterceptor implements HandshakeInterceptor {

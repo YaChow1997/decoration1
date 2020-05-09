@@ -97,7 +97,7 @@
                         </table>
                         <!-- /.box-body -->
                         <div class="box-footer">
-                            <a type="button" class='btn btn-info btn-sm returnButton' href="<c:url value="/render/toIndex"/>">返回首页</a>
+                            <button type="button" class="btn btn-primary" id="payBtn">在线支付</button>
                         </div>
                     </div>
                 </div>
@@ -112,6 +112,27 @@
         <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
         reserved.
     </footer>
+
+        <div class="modal fade" id="payDialog" tabindex="-1" role="dialog" aria-labelledby="myModelLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">请用支付宝扫码</h4>
+                    </div>
+                    <div class="modal-body">
+                        <img src="/images/pic/支付.jpg" height="585" width="350" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
     <!-- ./wrapper -->
     <!-- jQuery 3 -->
     <script src="<c:url value="/bower_components/jquery/dist/jquery.min.js"/>"></script>
@@ -128,6 +149,9 @@
     <script>
         $(document).ready(function () {
             $('.sidebar-menu').tree()
+            $("#payBtn").click(function () {
+                $("#payDialog").modal('show');
+            })
         })
 
     </script>
